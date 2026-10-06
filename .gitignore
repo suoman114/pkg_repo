@@ -1,0 +1,3 @@
+# 설치 묶음은 git에 넣지 않는다 (100MB 초과) — Releases에 올린다
+pkgrepo-el7-bundle.tar.gz
+*.part
