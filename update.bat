@@ -1,19 +1,21 @@
 @echo off
 chcp 65001 >nul
 setlocal
-rem pkg_repo 새 버전 받기 + 설치 (Windows + WSL CentOS 7)
-rem 사용법: update.bat [WSL 배포판 이름]   (기본: CentOS7)
+rem pkg_repo 새 버전 받기 + 설치 (Windows, WSL 없이)
 rem GitHub의 최신 Release에서 설치 묶음을 이 폴더에 받은 뒤 install.bat 을 실행한다. 설정·DB·받아 둔 파일은 그대로 유지된다.
 
-set URL=https://github.com/suoman114/pkg_repo/releases/latest/download/pkgrepo-el7-bundle.tar.gz
-set OUT=%~dp0pkgrepo-el7-bundle.tar.gz
+set URL=https://github.com/suoman114/pkg_repo/releases/latest/download/pkgrepo-win-bundle.tar.gz
+set OUT=%~dp0pkgrepo-win-bundle.tar.gz
 
-echo == 최신 설치 묶음을 받습니다 (약 150MB)
+echo == 최신 설치 묶음을 받습니다 (약 160MB)
 echo    %URL%
 curl.exe -L -f --retry 2 -o "%OUT%.part" "%URL%"
 if errorlevel 1 goto :failed
 move /y "%OUT%.part" "%OUT%" >nul
-call "%~dp0install.bat" %1
+rem 확인용 SHA-256 — install.bat 이 이 값으로 묶음을 검사한다
+curl.exe -L -f --retry 2 -s -o "%OUT%.sha256" "%URL%.sha256"
+if errorlevel 1 goto :failed
+call "%~dp0install.bat"
 exit /b %errorlevel%
 
 :failed

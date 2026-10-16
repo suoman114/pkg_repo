@@ -1,3 +1,5 @@
 # Windows 배치 파일은 CRLF 그대로, 셸 스크립트는 LF 그대로 둔다 (ZIP으로 받아도 바로 실행되게)
 *.bat -text
 *.sh text eol=lf
+# PowerShell 5.1은 BOM 없는 UTF-8 .ps1의 한글을 깨뜨려 읽는다 — BOM·CRLF를 그대로 둔다
+*.ps1 -text
